@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1> Currency Converter</h1>
+	<h2> Select input currency</h2>
+	<input type="radio" name="currency" id="US" value="USD" >USD<br>
+  	<input type="radio" name="currency" id="UK" value="EUR" >EUR<br>
+	<input type="number" id="toVnd">
+	<input type="submit" onclick="convertToVND()"  value="Convert Currency"></input>
+	<!--<button onclick="callApi('USD')">callApi</button>-->
+</body>
+<script>
+	let cur;
+	function convertToVND()
+	{
+		let conversion=document.querySelector('input[name="currency"]:checked').value;
+		
+		callApi(conversion);
+
+	}
+	function callApi(currency) {
+	  var xhr = new XMLHttpRequest();
+	  xhr.open('GET', 'https://free.currencyconverterapi.com/api/v6/convert?q=' + currency + '_VND&compact=ultra&apiKey=d5f314cd4ffb7012cce9');
+	  cur=currency+"_VND";
+	  xhr.onload = function() {
+	      if (xhr.status === 200) {
+	          updateResults(JSON.parse(xhr.responseText));
+
+	      }
+	      else {
+	          alert('Request failed.  Returned status of ' + xhr.status);
+	      }
+	  };
+	  xhr.send();
+	}
+	function updateResults(response) {
+	  console.log(response[cur]);
+	  let x=document.getElementById("toVnd").value;
+	  document.write(x*response[cur]);
+	}
+
+</script>
+</html>
